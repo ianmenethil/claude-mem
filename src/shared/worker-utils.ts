@@ -46,7 +46,8 @@ export async function ensureWorkerRunning(): Promise<boolean> {
 
     // Start worker with PM2 (bundled dependency)
     const ecosystemPath = path.join(packageRoot, 'ecosystem.config.cjs');
-    const pm2Path = path.join(packageRoot, 'node_modules', '.bin', 'pm2');
+    const pm2Binary = process.platform === 'win32' ? 'pm2.cmd' : 'pm2';
+    const pm2Path = path.join(packageRoot, 'node_modules', '.bin', pm2Binary);
 
     // Fail loudly if bundled pm2 is missing
     if (!existsSync(pm2Path)) {
@@ -67,7 +68,8 @@ export async function ensureWorkerRunning(): Promise<boolean> {
     const proc = spawn(pm2Path, ['start', ecosystemPath], {
       detached: true,
       stdio: 'ignore',
-      cwd: packageRoot
+      cwd: packageRoot,
+      shell: process.platform === 'win32'
     });
 
     // Fail loudly on spawn errors
