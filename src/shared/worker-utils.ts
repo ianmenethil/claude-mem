@@ -69,7 +69,8 @@ export async function ensureWorkerRunning(): Promise<boolean> {
       detached: true,
       stdio: 'ignore',
       cwd: packageRoot,
-      shell: process.platform === 'win32'
+      shell: process.platform === 'win32',
+      windowsHide: true
     });
 
     // Fail loudly on spawn errors
