@@ -17,7 +17,7 @@ Dependencies have been installed in the background. This only happens once.
 Thank you for installing Claude-Mem!
 
 This message was not added to your startup context, so you can continue working as normal.
-`),process.exit(3));try{let e=o(t(),".claude","plugins","marketplaces","thedotmack","plugin","scripts","context-hook.js"),n=r(`node "${e}" --colors`,{encoding:"utf8"});console.error(`
+`),process.exit(3));try{let e=o(t(),".claude","plugins","marketplaces","thedotmack","plugin","scripts","context-hook.js"),n=r(`node "${e}" --colors`,{encoding:"utf8",windowsHide:!0});console.error(`
 
 \u{1F4DD} Claude-Mem Context Loaded
    \u2139\uFE0F  Note: This appears as stderr but is informational only
