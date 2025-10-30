@@ -32,11 +32,20 @@ function findClaudePath(): string {
     const command = process.platform === 'win32' ? 'where claude' : 'which claude';
     const result = execSync(command, { encoding: 'utf8' }).trim();
 
-    // On Windows, 'where' returns multiple lines if there are multiple matches, take the first
-    const path = result.split('\n')[0].trim();
+    // On Windows, 'where' returns multiple lines if there are multiple matches
+    // We need to find one with .cmd extension that's spawnable
+    const paths = result.split('\n').map(p => p.trim()).filter(p => p);
 
-    if (!path) {
+    if (paths.length === 0) {
       throw new Error('Claude executable not found in PATH');
+    }
+
+    let path: string;
+    if (process.platform === 'win32') {
+      // Prefer .cmd extension on Windows as it's spawnable
+      path = paths.find(p => p.endsWith('.cmd')) || paths[0];
+    } else {
+      path = paths[0];
     }
 
     logger.info('SYSTEM', `Found Claude executable: ${path}`);
